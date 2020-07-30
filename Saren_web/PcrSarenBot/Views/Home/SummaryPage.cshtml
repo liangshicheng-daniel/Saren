@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "伤害汇总";
+}
+@model List<PcrSarenBot.Models.EventModel>
+<head>
+    <script type="text/javascript" src="~/js/summaryTable.js"></script>
+    <script>
+        $(document).ready(function () {
+            summaryTablePageReady();
+        });
+    </script>
+</head>
+<body>
+    <h1>伤害汇总</h1>
+    <hr />
+    <div class="col-md-4">
+        <select id="eventSelection" class="select-css">
+            @foreach (var e in Model)
+            {
+                @if (e.status == "Active")
+                {
+                    <option value="@e.eventId" selected>第 @e.eventId 期：@e.eventName</option>
+                }
+                else
+                {
+                    <option value="@e.eventId">第 @e.eventId 期：@e.eventName</option>
+                }
+            }
+        </select>
+
+    </div>
+    <hr />
+    <br />
+    <div id="summaryDiv">
+        <table class="table">
+            <thead id="summaryTableHead"></thead>
+            <tbody id="summaryTableBody"></tbody>
+        </table>
+    </div>
+</body>

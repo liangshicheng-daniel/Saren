@@ -8,3 +8,10 @@
 /httpRequests/
 /venv
 /.idea
+<<<<<<< HEAD
+=======
+/Saren_web/PcrSarenBot/bin/
+/Saren_web/PcrSarenBot/.vs/
+/Saren_web/PcrSarenBot/obj/
+/Saren_web/PcrSarenBot/Properties/
+>>>>>>> master
