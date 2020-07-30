@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewData["Title"] = "公会战作业";
+}
+<head>
+    <script type="text/javascript" src="~/js/guide.js"></script>
+    <script>
+        $(document).ready(function () {
+            guidePageReady();
+        });
+    </script>
+</head>
+<body>
+    <h1>公会战作业</h1>
+    <hr />
+    <div class="form-row">
+        <div class="col-md-4">
+            <select id="eventSelection" class="select-css">
+                @foreach (var e in Model)
+                {
+                    @if (e.status == "Active")
+                    {
+                        <option value="@e.eventId" selected>第 @e.eventId 期：@e.eventName</option>
+                    }
+                    else
+                    {
+                        <option value="@e.eventId">第 @e.eventId 期：@e.eventName</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <button id="newGuide" type="button" class="btn btn-outline-primary btn-lg">新作业</button>
+        </div>
+    </div>
+    <hr />
+    <nav>
+        <div class="nav nav-pills nav-fill" id="navTab" role="tablist">
+            <a class="nav-item nav-link active nav-boss-tabs" id="navBossOneTab" data-toggle="tab" href="#navBossOne" role="tab" aria-controls="navBossOne" aria-selected="true"></a>
+            <a class="nav-item nav-link nav-boss-tabs" id="navBossTwoTab" data-toggle="tab" href="#navBossTwo" role="tab" aria-controls="navBossTwo" aria-selected="true"></a>
+            <a class="nav-item nav-link nav-boss-tabs" id="navBossThreeTab" data-toggle="tab" href="#navBossThree" role="tab" aria-controls="navBossThree" aria-selected="true"></a>
+            <a class="nav-item nav-link nav-boss-tabs" id="navBossFourTab" data-toggle="tab" href="#navBossFour" role="tab" aria-controls="navBossFour" aria-selected="true"></a>
+            <a class="nav-item nav-link nav-boss-tabs" id="navBossFiveTab" data-toggle="tab" href="#navBossFive" role="tab" aria-controls="navBossFive" aria-selected="true"></a>
+            <a class="nav-item nav-link " id="navBoxTab" data-toggle="tab" href="#navBox" role="tab" aria-controls="avBox" aria-selected="true" bossId=0><b>Box</b></a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="navBossOne" role="tabpanel" aria-labelledby="navBossOneTab">
+        </div>
+        <div class="tab-pane fade show " id="navBossTwo" role="tabpanel" aria-labelledby="navBossTwoTab">
+        </div>
+        <div class="tab-pane fade show " id="navBossThree" role="tabpanel" aria-labelledby="navBossThreeTab">
+        </div>
+        <div class="tab-pane fade show " id="navBossFour" role="tabpanel" aria-labelledby="navBossFourTab">
+        </div>
+        <div class="tab-pane fade show " id="navBossFive" role="tabpanel" aria-labelledby="navBossFiveTab">
+        </div>
+        <div class="tab-pane fade show " id="navBox" role="tabpanel" aria-labelledby="navBoxTab">
+        </div>
+    </div>
+
+    <div id="newGuideDialog" title="新轴">
+        <form id="newGuideForm" class="needs-validation" novalidate>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="newGuideTitle"><b>标题:</b></label>
+                    <input type="text" class="form-control" id="newGuideTitle" placeholder="阵容思路简介" required>
+                    <div class="invalid-feedback">
+                        请输入标题
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="newGuideImage"><b>图片说明: </b></label>
+                    <div class="input-group mb-3">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="newGuideImage">
+                            <label class="custom-file-label" id="newGuideImageLabel" for="newGuideImage" aria-describedby="newGuideImageAddon">点击上传图片</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="newGuideComment"><b>文字说明：</b></label>
+                    <textarea type="text" class="form-control" id="newGuideComment" placeholder="对图片内容进行补充或在此处填写完整的轴" style="height:300px;"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>

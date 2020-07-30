@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "出刀记录";
+}
+@model List<PcrSarenBot.Models.EventModel>
+<head>
+    <script type="text/javascript" src="~/js/recordCheck.js"></script>
+    <script>
+        $(document).ready(function () {
+            recordCheckPageReady();
+        });
+    </script>
+</head>
+<body>
+    <h1>出刀记录</h1>
+    <hr />
+    <div class="col-md-4">
+        <select id="eventSelection" class="select-css">
+            @foreach (var e in Model)
+            {
+                @if (e.status == "Active")
+                {
+                    <option value="@e.eventId" selected>第 @e.eventId 期：@e.eventName</option>
+                }
+                else
+                {
+                    <option value="@e.eventId">第 @e.eventId 期：@e.eventName</option>
+                }
+            }
+        </select>
+    </div>
+    <hr />
+    <div id="recordGridDiv">
+        <br />
+        <table id="recordGrid"></table>
+        <div id="recordPager"></div>
+        <br />
+    </div>
+</body>

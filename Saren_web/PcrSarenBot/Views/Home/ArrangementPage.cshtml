@@ -1,0 +1,222 @@
+﻿
+@{
+ViewData["Title"] = "排刀";
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model PcrSarenBot.Models.DailyRecord
+<body>
+    <div class="col-md-4">
+        <select id="dateSelection" class="select-css" url='@Url.Action("ArrangementPage", "Home")'>
+            @for (int i = 0; i < Model.dateRange.Count; i++)
+            {
+                if (Model.dateRange[i] == Model.selectedDate)
+                {
+                    <option value="@Model.dateRange[i]" selected>@Model.dateRange[i]</option>
+                }
+                else
+                {
+                    <option value="@Model.dateRange[i]">@Model.dateRange[i]</option>
+                }
+
+            }
+        </select>
+    </div>
+    <br />
+    <div id="dailySummary" class="container">
+        <table class="table table-bordered table-striped table-fixed table-property">
+            <thead>
+                <tr>
+                    <th scope="col" style="width:7%">成员</th>
+                    <th scope="col" style="width:3%">已SL</th>
+                    <th scope="col" style="width:3%">BOSS</th>
+                    <th scope="col" style="width:4%">伤害</th>
+                    <th scope="col" style="width:7%">出刀人</th>
+                    <th scope="col" style="width:3%">BOSS</th>
+                    <th scope="col" style="width:4%">伤害</th>
+                    <th scope="col" style="width:7%">出刀人</th>
+                    <th scope="col" style="width:3%">BOSS</th>
+                    <th scope="col" style="width:4%">伤害</th>
+                    <th scope="col" style="width:7%">出刀人</th>
+                    <th scope="col" style="width:3%">BOSS</th>
+                    <th scope="col" style="width:4%">伤害</th>
+                    <th scope="col" style="width:7%">出刀人</th>
+                    <th scope="col" style="width:3%">BOSS</th>
+                    <th scope="col" style="width:4%">伤害</th>
+                    <th scope="col" style="width:7%">出刀人</th>
+                    <th scope="col" style="width:3%">BOSS</th>
+                    <th scope="col" style="width:4%">伤害</th>
+                    <th scope="col" style="width:7%">出刀人</th>
+                    <th scope="col" style="width:6%">总伤害</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th colspan="3">第一刀</th>
+                    <th colspan="3">补偿刀</th>
+                    <th colspan="3">第二刀</th>
+                    <th colspan="3">补偿刀</th>
+                    <th colspan="3">第三刀</th>
+                    <th colspan="3">补偿刀</th>
+                    <th></th>
+                </tr>
+                @foreach (var member in Model.recordSet.Values)
+                {
+                    int? totalDamage = 0;
+                    <tr>
+                        <td>@member.name</td>
+                        <td>
+
+                            @if (member.slUsed)
+                            {
+                                <input type="checkbox" checked onclick="return false;">
+                            }
+                            else
+                            {
+                                <input type="checkbox" onclick="return false;">
+                            }
+                        </td>
+                        @if (member.battles[0] != null)
+                        {
+                            <td>@member.battles[0].roundNumber-@member.battles[0].bossId</td>
+                            <td>@member.battles[0].damage</td>
+                            <td>@member.battles[0].playerName</td>
+                            totalDamage += member.battles[0].damage;
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                        @if (member.battles[1] != null)
+                        {
+                            <td>@member.battles[1].roundNumber-@member.battles[1].bossId</td>
+                            <td>@member.battles[1].damage</td>
+                            <td>@member.battles[1].playerName</td>
+                            totalDamage += member.battles[0].damage;
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                        @if (member.battles[2] != null)
+                        {
+                            <td>@member.battles[2].roundNumber-@member.battles[2].bossId</td>
+                            <td>@member.battles[2].damage</td>
+                            <td>@member.battles[2].playerName</td>
+                            totalDamage += member.battles[0].damage;
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                        @if (member.battles[3] != null)
+                        {
+                            <td>@member.battles[3].roundNumber-@member.battles[3].bossId</td>
+                            <td>@member.battles[3].damage</td>
+                            <td>@member.battles[3].playerName</td>
+                            totalDamage += member.battles[0].damage;
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                        @if (member.battles[4] != null)
+                        {
+                            <td>@member.battles[4].roundNumber-@member.battles[4].bossId</td>
+                            <td>@member.battles[4].damage</td>
+                            <td>@member.battles[4].playerName</td>
+                            totalDamage += member.battles[0].damage;
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                        @if (member.battles[5] != null)
+                        {
+                            <td>@member.battles[5].roundNumber-@member.battles[5].bossId</td>
+                            <td>@member.battles[5].damage</td>
+                            <td>@member.battles[5].playerName</td>
+                            totalDamage += member.battles[0].damage;
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                        <td>@totalDamage</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <table class="table table-bordered table-striped table-fixed table-property">
+            <thead>
+                <tr>
+                    <th>BOSS</th>
+                    <th>刀数</th>
+                    <th>平均伤害</th>
+                    <th>BOSS</th>
+                    <th>刀数</th>
+                    <th>平均伤害</th>
+                    <th>BOSS</th>
+                    <th>刀数</th>
+                    <th>平均伤害</th>
+                    <th>BOSS</th>
+                    <th>刀数</th>
+                    <th>平均伤害</th>
+                    <th>BOSS</th>
+                    <th>刀数</th>
+                    <th>平均伤害</th>
+                    <th>总刀数</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var round in Model.roundList)
+                {
+                    <tr>
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            if (round.boss[i] == null)
+                            {
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            }
+                            else
+                            {
+                                var trySpend = round.boss[i].trySpend;
+                                if (trySpend == 0)
+                                    trySpend = 1;
+                                <td>@round.roundNumber-@round.boss[i].bossId</td>
+                                <td>@round.boss[i].trySpend</td>
+                                <td>@(round.boss[i].totalDamage / trySpend)</td>
+                            }
+                        }
+                        <td>@round.totalTrySpend</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+<script>
+    //console.log($("#dateSelection option:selected").val());
+    $("#dateSelection").change(function (e) {
+        //console.log($("#dateSelection").attr('url'));
+        location.href = $("#dateSelection").attr('url') + '?date=' + $("#dateSelection option:selected").val();
+    });
+</script>
