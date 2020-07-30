@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream:Saren/plugins/clan_battle.py
 from nonebot import on_command, CommandSession
 import mysql.connector
 import numbers
@@ -343,6 +342,26 @@ async def set_sl(session: CommandSession):
             response += '{}； '.format(member[0])
         await session.send(response)
 
+#By 微笑-07/29/2020
+@on_command('status', aliases=('状态'), only_to_me=False)
+async def query_status(session: CommandSession):
+    if session.ctx['message_type'] == 'group':
+        response = await query_status();
+        await session.send(response)
+
+#By 微笑-07/29/2020
+async def query_status():
+    con = database_connection()
+    cursor = con.cursor()
+    query = "SELECT Parameters.current_boss_health, Boss.boss_name, Parameters.current_cycle, Boss.health_pool, Parameters.event_id, Parameters.current_boss_id from Boss inner join Parameters on Boss.boss_id = Parameters.current_boss_id where Parameters.status = 'Active'"
+    cursor.execute(query)
+    result = cursor.fetchone()
+    query = "SELECT count(battle_id) from Battles where Battles.record_time > '{}' and Battles.status = 'Finished'".format(get_refresh_time())
+    cursor.execute(query)
+    count = cursor.fetchone()
+    return '当前boss为{}，第{}周目，血量： {}/{}，剩余{}刀'.format(result[1], result[2], result[0], result[3], 90-count[0])
+
+
 @on_command('h_pic', aliases=('有涩图功能吗', '有色图功能吗', '涩图', '色图'), only_to_me=False)
 async def h_pic(session: CommandSession):
     await session.set_group_ban(session.ctx['group_id'], session.ctx['user_id'], 60)
@@ -357,7 +376,10 @@ async def show_guide(session: CommandSession):
 
 def database_connection():
     mydb = mysql.connector.connect(
-        ##
+        host="**",
+        user="**",
+        passwd="**",
+        database="**"
     )
     return mydb
 
