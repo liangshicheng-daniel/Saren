@@ -925,7 +925,10 @@ async def query_status():
     query = "SELECT Parameters.current_boss_health, Boss.boss_name, Parameters.current_cycle, Boss.health_pool, Parameters.event_id, Parameters.current_boss_id from Boss inner join Parameters on Boss.boss_id = Parameters.current_boss_id where Parameters.status = 'Active'"
     cursor.execute(query)
     result = cursor.fetchone()
-    return '当前boss为{}，第{}周目，血量： {}/{}'.format(result[1], result[2], result[0], result[3])
+    query = "SELECT count(battle_id) from Battles where Battles.record_time > '{}' and Battles.status = 'Finished'".format(get_refresh_time())
+    cursor.execute(query)
+    count = cursor.fetchone()
+    return '当前boss为{}，第{}周目，血量： {}/{}，剩余{}刀'.format(result[1], result[2], result[0], result[3], 90-count[0])
 
 
 @on_command('h_pic', aliases=('有涩图功能吗', '有色图功能吗', '涩图', '色图'), only_to_me=False)
