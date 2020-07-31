@@ -12,9 +12,9 @@ async def new_run(session: CommandSession):
         x=re.search(r".*\s*\[CQ\:at,qq\=(\d+)\]", session.ctx['raw_message'])      
         user_id=session.ctx['user_id']
         if x != None:
-            if not_supervisor(user_id):
-                await session.send('代人操作仅限指挥使用')
-                return
+            # if not_supervisor(user_id):
+            #     await session.send('代人操作仅限指挥使用')
+            #     return
             user_id = x.group(1)
         response = await start_new_run(user_id)
         await session.send(response)
@@ -24,7 +24,6 @@ async def test(session: CommandSession):
     if session.ctx['message_type'] == 'group':
         print(session.ctx['raw_message'])
         print(session.current_arg_text)
-
 
 @on_command('end_run', aliases=('完成出刀','整刀', '报刀'), only_to_me=False)
 async def end_run(session: CommandSession):
@@ -209,7 +208,7 @@ async def police(session: CommandSession):
 
 @on_command('help', aliases=('指令集', '帮助'), only_to_me=False)
 async def help(session: CommandSession):
-    response = '目前可以使用的指令有：\n    申请出刀\n    完成出刀 (伤害值)\n    尾刀\n    挂树\n    查树\n    强行下树 (伤害值)\n    出警\n    查刀\n    排刀\n    作业\n    sl\n    查sl\n    回档 【管理限定】\n    血量重设 (正确血量) 【管理限定】\n如果Saren需要确认，请回复 确认'
+    response = '目前可以使用的指令有：\n    申请出刀\n    完成出刀 (伤害值)\n    尾刀\n    挂树\n    查树\n    强行下树 (伤害值)\n    出警\n    查刀\n    排刀\n    作业\n    排名\n    sl\n    查sl\n    回档 【管理限定】\n    血量重设 (正确血量) 【管理限定】\n如果Saren需要确认，请回复 确认'
     await session.send(response)
 
 
@@ -374,7 +373,11 @@ async def show_damage(session: CommandSession):
 async def show_guide(session: CommandSession):
     await session.send('site address')
 
-@on_command('arrangment', aliases=('排刀',), only_to_me=False)
+@on_command('rank', aliases=('排刀',), only_to_me=False)
+async def rank(session: CommandSession):
+    await session.send('site address')
+
+@on_command('arrangment', aliases=('排名',), only_to_me=False)
 async def arrangment(session: CommandSession):
     await session.send('site address')
 
@@ -526,9 +529,13 @@ async def end_run(user_id, player_id, damage, finish_type, session):
             battle_id = find_battle_record(user_id)
             if battle_id is None:
                 if check_total_runs(user_id) >= 3:
-                    return '您今日已出满三刀，请不要调戏Saren，不然打飞你哦'                       
-                query = "INSERT INTO Battles (member_id, player_id event_id, boss_id, cycle_number, damage, status) VALUES (%s, %s, %s, %s, %s, %s)"
-                val = (user_id, player_id, result[4], result[5], result[2], damage, 'Finished')
+                    return '您今日已出满三刀，请不要调戏Saren，不然打飞你哦'
+                if (player_id is None):
+                    query = "INSERT INTO Battles (member_id, player_id, event_id, boss_id, cycle_number, damage, status) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                    val = (user_id, player_id, result[4], result[5], result[2], damage, 'Finished')
+                else:
+                    query = "INSERT INTO Battles (member_id, event_id, boss_id, cycle_number, damage, status) VALUES (%s, %s, %s, %s, %s, %s)"
+                    val = (user_id, result[4], result[5], result[2], damage, 'Finished')
                 cursor.execute(query, val)
                 query = "UPDATE Parameters SET current_boss_health = {}".format(result[0]-damage)
                 cursor.execute(query)
